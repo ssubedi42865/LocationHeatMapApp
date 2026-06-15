@@ -2,22 +2,40 @@
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+    LocationDatabase db;
 
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    public MainPage()
+    {
+        InitializeComponent();
 
-	private void OnCounterClicked(object? sender, EventArgs e)
-	{
-		count++;
+        db = new LocationDatabase();
+    }
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
+    private async void SaveLocation_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            var location = await Geolocation.Default.GetLocationAsync();
 
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+            if (location != null)
+            {
+                LocationPoint point = new LocationPoint();
+
+                point.Latitude = location.Latitude;
+                point.Longitude = location.Longitude;
+                point.TimeRecorded = DateTime.Now.ToString();
+
+                await db.SaveLocation(point);
+
+                ResultLabel.Text =
+                    "Location Saved\n" +
+                    "Latitude: " + point.Latitude +
+                    "\nLongitude: " + point.Longitude;
+            }
+        }
+        catch (Exception ex)
+        {
+            ResultLabel.Text = ex.Message;
+        }
+    }
 }
