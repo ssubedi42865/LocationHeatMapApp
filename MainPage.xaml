@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    x:Class="LocationHeatMapApp.MainPage"
+    Title="Location Tracker &amp; Heatmap">
+
+    <Grid RowDefinitions="*, Auto">
+
+        <maps:Map 
+            x:Name="LocationMap"
+            Grid.Row="0"
+            IsShowingUser="True" />
+
+        <HorizontalStackLayout 
+            Grid.Row="1"
+            Padding="15"
+            Spacing="15"
+            HorizontalOptions="Center">
+
+            <Button 
+                Text="Log Current Location"
+                Clicked="OnLogLocationClicked" />
+
+            <Button 
+                Text="Refresh Heatmap"
+                Clicked="OnRefreshHeatmapClicked" />
+
+        </HorizontalStackLayout>
+
+    </Grid>
+</ContentPage>
